@@ -67,7 +67,7 @@ function parseSNI (data) {
 				return null;
 			}
 			currentPos += 5;
-			return data.toString('utf8', currentPos, currentPos + sniLength - 5);
+			return data.toString("utf8", currentPos, currentPos + sniLength - 5);
 		} else {
 			currentPos += 4 + data.readInt16BE(currentPos + 2);
 		}
