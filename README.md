@@ -35,6 +35,6 @@ createProxy(function (hostname) {
 
 ### Contributions
 
-* Use gulp to run tests.
+* Use npm to run tests.
 
 Please feel free to create a PR!
