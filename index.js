@@ -1,6 +1,7 @@
 "use strict";
 
 var net        = require("net");
+var hostReg    = /^Host: ([^:\r\n]+).*$/im;
 module.exports = createProxy;
 
 /**
@@ -13,17 +14,34 @@ function createProxy (findAddress) {
 	if (typeof findAddress !== "function") {
 		throw new TypeError("host resolver must be a function");
 	}
-	return net.createServer(function (conn) {
-		conn.once("data", function (data) {
-			var secure = data[0] === 22;
-			var hostname = secure ? parseSNI(data) : parseHeader(data);
-			var address = findAddress(hostname);
-			if (address == null) return conn.end();
-			var proxy = net.createConnection(address);
-			proxy.write(data);
-			conn.pipe(proxy).pipe(conn);
-		});
-	});
+
+	return net.createServer(handleConnection);
+
+	/**
+	 * Function to handle a new connection.
+	 * Adds an eventlistener to wait for data.
+	 *
+	 * @param {net.Socket|tls.TLSSocket} socket
+	 */
+	function handleConnection (socket) {
+		socket.once("data", handleData);
+	}
+
+	/**
+	 * Function to listen for initial request data.
+	 * Attempts to proxy request based on hostname.
+	 *
+	 * @param {Buffer} data
+	 */
+	function handleData (data) {
+		var secure = data[0] === 22;
+		var hostname = secure ? parseSNI(data) : parseHeader(data);
+		var address = findAddress(hostname);
+		if (address == null) return this.end();
+		var proxy = net.connect(address);
+		proxy.write(data);
+		this.pipe(proxy).pipe(this);
+	}
 }
 
 /**
@@ -33,7 +51,7 @@ function createProxy (findAddress) {
  * @returns {String|null}
  */
  function parseHeader (data) {
- 	var match = data.toString("utf8").match(/^Host: ([^:\r\n]+).*$/im);
+ 	var match = data.toString("utf8").match(hostReg);
  	return match && match[1];
  }
 
