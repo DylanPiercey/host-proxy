@@ -1,6 +1,7 @@
 "use strict";
 
 var net        = require("net");
+var url        = require("url");
 var hostReg    = /^Host: ([^:\r\n]+).*$/im;
 module.exports = createProxy;
 
@@ -36,7 +37,7 @@ function createProxy (findAddress) {
 	function handleData (data) {
 		var secure = data[0] === 22;
 		var hostname = secure ? parseSNI(data) : parseHeader(data);
-		var address = findAddress(hostname);
+		var address = parseAddress(findAddress(hostname));
 		if (address == null) return this.end();
 		var proxy = net.connect(address);
 		proxy.write(data);
@@ -91,4 +92,16 @@ function parseSNI (data) {
 		}
 	}
 	return null;
+}
+
+/**
+ * Converts an href string into a valid socket address.
+ *
+ * @params {*} address
+ * @returns {Object}
+ */
+function parseAddress (address) {
+	if (typeof address !== "string") return address;
+	var parsed = url.parse(address);
+	return { host: parsed.hostname, port: parsed.port };
 }

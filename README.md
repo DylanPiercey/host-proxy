@@ -19,9 +19,9 @@ createProxy(function (hostname) {
 	// Result is passed to net.createConnection.
 	return ({
 		"test.com": "http://localhost:3002",
-		"secure.test.com": "https://localhost:3002",
+		"secure.test.com": "https://localhost:3003",
 		"search.test.com": "http://google.ca",
-		"api.test.com": { port: 12346, family: 'IPv4', address: "127.0.0.1" }
+		"api.test.com": { port: 12345, family: 'IPv4', address: "127.0.0.1" }
 	})[hostname];
 }).listen(80);
 ```
@@ -29,9 +29,9 @@ createProxy(function (hostname) {
 ### The above example creates the following proxy:
 
 * **test.com** -> http://localhost:3002
-* **secure.test.com** -> https://localhost:3002
+* **secure.test.com** -> https://localhost:3003
 * **search.test.com** -> http://google.ca
-* **api.test.com** -> http://localhost:3003
+* **api.test.com** -> http://localhost:12345
 
 ### Contributions
 
