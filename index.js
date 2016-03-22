@@ -41,7 +41,18 @@ function createProxy (findAddress) {
 		if (address == null) return this.end();
 		var proxy = net.connect(address);
 		proxy.write(data);
+		this.once("error", handleError);
 		this.pipe(proxy).pipe(this);
+	}
+
+	/**
+	 * Gracefully handle net errors.
+	 *
+	 * @param {Error} err
+	 */
+	function handleError (err) {
+		console.error(err);
+		this.end();
 	}
 }
 

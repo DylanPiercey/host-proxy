@@ -1,6 +1,6 @@
 {
   "name": "host-proxy",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Fast, lightweight and transparent http(s) proxy that supports dynamic hostnames.",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "main": "index.js",
