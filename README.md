@@ -14,7 +14,7 @@ npm install host-proxy
 var createProxy = require('host-proxy');
 
 // Start a proxy server.
-createProxy(function (hostname) {
+createProxy(function (hostname, secure) {
 	// Respond with an address to proxy to.
 	// Result is passed to net.createConnection.
 	return ({

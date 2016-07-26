@@ -37,7 +37,7 @@ function createProxy (findAddress) {
 	function handleData (data) {
 		var secure = data[0] === 22;
 		var hostname = secure ? parseSNI(data) : parseHeader(data);
-		var address = parseAddress(findAddress(hostname));
+		var address = parseAddress(findAddress(hostname, secure));
 		if (address == null) return this.end();
 		var proxy = net.connect(address);
 		proxy.write(data);
