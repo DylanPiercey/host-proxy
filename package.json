@@ -1,7 +1,7 @@
 {
   "name": "host-proxy",
   "description": "Fast, lightweight and transparent http(s) proxy that supports dynamic hostnames.",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/host-proxy/issues",
   "devDependencies": {
