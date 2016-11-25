@@ -28,8 +28,8 @@ function createProxy (findAddress) {
     */
   function handleConnection (socket) {
     socket
-			.once('error', handleError)
-			.once('data', handleData)
+    .once('error', handleError)
+    .once('data', handleData)
   }
 
   /**
@@ -46,21 +46,21 @@ function createProxy (findAddress) {
     if (address == null) return this.end()
     var proxy = net.connect(address)
     proxy
-			.setTimeout(0)
-			.once('error', handleError)
-			.write(data)
+      .setTimeout(0)
+      .once('error', handleError)
+      .write(data)
     this
-			.setTimeout(0)
-			.pipe(proxy)
-			.pipe(this)
+      .setTimeout(0)
+      .pipe(proxy)
+      .pipe(this)
   }
 }
 
 /**
-	* Gracefully handle net errors.
-	*
-	* @param {Error} err
-	*/
+  * Gracefully handle net errors.
+  *
+  * @param {Error} err
+  */
 function handleError (err) {
   if (ignoreErrors[err.code]) return this.end()
   this.destroy(err)

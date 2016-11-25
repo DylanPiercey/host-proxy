@@ -5,6 +5,8 @@
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "bugs": "https://github.com/DylanPiercey/host-proxy/issues",
   "devDependencies": {
+    "snazzy": "^5.0.0",
+    "standard": "^8.6.0",
     "supertest": "^2.0.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.3"
@@ -25,6 +27,7 @@
     "url": "https://github.com/DylanPiercey/host-proxy"
   },
   "scripts": {
-    "test": "node ./test main"
+    "lint": "standard --verbose | snazzy",
+    "test": "npm run lint && tape ./**/*.test.js | tap-spec"
   }
 }
