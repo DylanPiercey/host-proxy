@@ -64,7 +64,6 @@ function createProxy (findAddress) {
 function handleError (err) {
   if (ignoreErrors[err.code]) return this.end()
   this.destroy(err)
-  console.error(err)
 }
 
 /**
